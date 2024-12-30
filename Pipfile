@@ -5,6 +5,11 @@ name = "pypi"
 
 [packages]
 django = "*"
+mysqlclient = "*"
+djoser = "*"
+djangorestframework-simplejwt = "*"
+djangorestframework = "*"
+django-debug-toolbar = "*"
 
 [dev-packages]
 
