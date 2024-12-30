@@ -21,4 +21,4 @@ class Task(models.Model):
     description = models.TextField()
     status = models.CharField(choices=task_status, default=TASK_PENDING, max_length=1)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    category = models.ManyToManyField(Category, related_name='tasks')
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='tasks')
