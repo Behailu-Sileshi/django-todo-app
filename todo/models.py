@@ -19,6 +19,14 @@ class Task(models.Model):
     ]
     title = models.CharField(max_length=255)
     description = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    deadline = models.DateTimeField(null=True, blank=True)
     status = models.CharField(choices=task_status, default=TASK_PENDING, max_length=1)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='tasks')
+    
+    class Meta:
+        constraints = [
+                        models.CheckConstraint(check=models.Q(deadline__gt=models.F('created_at')),
+                                               name='deadline_gt_creation_date')
+    ]
