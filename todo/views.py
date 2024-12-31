@@ -1,11 +1,10 @@
 from django.shortcuts import render
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import  IsAuthenticated
-
 from .models import Category, Task
 from .serializers import CategorySerializer, CreateTaskSerializer, TaskSerializer, UpdateTaskSerializer
 
-# Create your views here.
+
 class TaskViewSet(ModelViewSet):
     http_method_names = ['get', 'post', 'patch', 'delete']
     permission_classes = [IsAuthenticated]

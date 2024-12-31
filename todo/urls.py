@@ -5,6 +5,6 @@ from . import views
 
 router = DefaultRouter()
 router.register('tasks', views.TaskViewSet, basename='task')
-router.register('categorys', views.CategoryViewSet, basename='category')
+router.register('categories', views.CategoryViewSet, basename='category')
 
 urlpatterns = router.urls

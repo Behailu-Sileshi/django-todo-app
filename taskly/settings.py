@@ -42,8 +42,6 @@ INSTALLED_APPS = [
     'djoser',
     'debug_toolbar',
     'todo',
-    'tags',
-    'core'
 ]
 
 MIDDLEWARE = [
@@ -151,4 +149,7 @@ SIMPLE_JWT = {
    
 }
 
-AUTH_USER_MODEL = 'core.User'
+AUTH_USER_MODEL = 'todo.User'
+
+
+
