@@ -25,6 +25,15 @@ class Task(models.Model):
         (TASK_COMPLETED, "COMPLETED"),
         (TASK_FAILED, "FAILED"),
     ]
+    PRIORITY_HIGH = 'H'
+    PRIORITY_MED = 'M'
+    PRIORITY_LOW = 'L'
+    
+    task_priority = {
+        (PRIORITY_HIGH, 'HIGH'),
+        (PRIORITY_MED, 'MED'),
+        (PRIORITY_LOW, 'LOW'),
+    }
     title = models.CharField(max_length=255)
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -32,6 +41,7 @@ class Task(models.Model):
         null=True, blank=True, validators=[validate_deadline]
     )
     status = models.CharField(choices=task_status, default=TASK_PENDING, max_length=1)
+    task_priority = models.CharField(choices=task_priority, max_length=1, null=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     category = models.ForeignKey(
         Category, on_delete=models.CASCADE, related_name="tasks"
