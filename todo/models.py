@@ -11,7 +11,7 @@ class User(AbstractUser):
 class Category(models.Model):
     title = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank=True, null=True)
-
+    
     def __str__(self):
         return self.title
 
@@ -29,11 +29,11 @@ class Task(models.Model):
     PRIORITY_MED = 'M'
     PRIORITY_LOW = 'L'
     
-    task_priority = {
+    task_priority = [
         (PRIORITY_HIGH, 'HIGH'),
         (PRIORITY_MED, 'MED'),
         (PRIORITY_LOW, 'LOW'),
-    }
+    ]
     title = models.CharField(max_length=255)
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -41,7 +41,7 @@ class Task(models.Model):
         null=True, blank=True, validators=[validate_deadline]
     )
     status = models.CharField(choices=task_status, default=TASK_PENDING, max_length=1)
-    task_priority = models.CharField(choices=task_priority, max_length=1, null=True)
+    priority = models.CharField(choices=task_priority, default='M', max_length=1)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     category = models.ForeignKey(
         Category, on_delete=models.CASCADE, related_name="tasks"

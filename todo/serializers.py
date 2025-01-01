@@ -21,6 +21,8 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ["id", "title", "description"]
+    
+    
 
 
 class TaskSerializer(serializers.ModelSerializer):
@@ -35,6 +37,7 @@ class TaskSerializer(serializers.ModelSerializer):
             "created_at",
             "deadline",
             "status",
+            "priority",
             "category",
         ]
 
@@ -49,6 +52,7 @@ class CreateTaskSerializer(serializers.ModelSerializer):
             "created_at",
             "deadline",
             "status",
+            "priority",
             "category",
         ]
 
@@ -65,9 +69,15 @@ class CreateTaskSerializer(serializers.ModelSerializer):
 class UpdateTaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
-        fields = ["status"]
+        fields = ["status", "task_priority"]
 
     def validate_status(self, value):
         if value not in ["C", "P", "F"]:
             raise serializers.ValidationError("The status must be in [C, P, F].")
         return value
+    
+    def validate_priority(self, value):
+        if value not in ["L", "M", "H"]:
+            raise serializers.ValidationError("The priority must be in [L, M, H].")
+        return value
+    

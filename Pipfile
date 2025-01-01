@@ -13,6 +13,7 @@ django-debug-toolbar = "*"
 python-dotenv = "*"
 drf-spectacular = "*"
 drf-yasg = "*"
+django-filter = "*"
 
 [dev-packages]
 pytest = "*"

@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+from datetime import timedelta
 import os
 from pathlib import Path
 from dotenv import load_dotenv
@@ -40,6 +41,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "django_filters",
     "drf_spectacular",
     "djoser",
     "debug_toolbar",
@@ -145,9 +147,9 @@ SPECTACULAR_SETTINGS = {
     'DESCRIPTION': """ Welcome to the Taskly API documentation! Taskly is a simple yet powerful to-do application built with Django to manage tasks and categories efficiently. This API allows developers to interact with the application's core resources, such as tasks, categories, and user authentication, using RESTful methods.
 
     The API includes the following key features:
-    - Tasks Management**: Create, update, retrieve, and delete tasks.
-    - Categories Management**: Create, update, retrieve, and delete task categories.
-    - User Authentication**: Register, login, and manage user authentication tokens for secure API access.
+    - Tasks Management: Create, update, retrieve, and delete tasks.
+    - Categories Management: Create, update, retrieve, and delete task categories.
+    - User Authentication: Register, login, and manage user authentication tokens for secure API access.
     
     Use this documentation to explore the available endpoints and interact with them directly. Each endpoint is described with details on request parameters, response types, and sample payloads. """
 ,
@@ -164,6 +166,7 @@ DJOSER = {
 
 SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ("JWT",),
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
 }
 
 AUTH_USER_MODEL = "todo.User"

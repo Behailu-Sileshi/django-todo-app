@@ -43,8 +43,15 @@ class TestCreateCategory:
 
         assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
-    def test_if_data_is_invalid_returns_400(self, authenticate, create_category):
+    def if_user_is_not_admin_return_403(self, authenticate,  delete_category):
         authenticate()
+
+        response = delete_category(5)
+
+        assert response.status_code == status.HTTP_403_FORBIDDEN
+        
+    def test_if_data_is_invalid_returns_400(self, authenticate, create_category):
+        authenticate(is_staff=True)
 
         response = create_category({"title": ""})
 
@@ -52,7 +59,7 @@ class TestCreateCategory:
         assert response.data is not None
 
     def test_if_data_is_valid_returns_201(self, authenticate, create_category):
-        authenticate()
+        authenticate(is_staff=True)
 
         response = create_category(
             {
@@ -98,18 +105,25 @@ class TestUpdateCategory:
         response = update_category(5, {"title": "a"})
 
         assert response.status_code == status.HTTP_401_UNAUTHORIZED
+        
+    def if_user_is_not_admin_return_403(self, authenticate,  delete_category):
+        authenticate()
+
+        response = delete_category(5)
+
+        assert response.status_code == status.HTTP_403_FORBIDDEN
 
     def test_if_category_does_not_exists_return_404(
         self, update_category, authenticate
-    ):
-        authenticate()
+ ):
+        authenticate(is_staff=True)
 
         response = update_category(5, {"title": "a"})
 
         assert response.status_code == status.HTTP_404_NOT_FOUND
 
     def test_if_data_is_invalid_returns_400(self, authenticate, update_category):
-        user = authenticate()
+        user = authenticate(is_staff=True)
 
         category = baker.make(Category)
         response = update_category(category.id, {"title": ""})
@@ -118,7 +132,7 @@ class TestUpdateCategory:
         assert response.data is not None
 
     def test_if_data_is_valid_returns_200(self, authenticate, update_category):
-        user = authenticate()
+        user = authenticate(is_staff=True)
 
         category = baker.make(Category)
         response = update_category(category.id, {"title": "X"})
@@ -134,17 +148,24 @@ class TestDeleteCategory:
 
         assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
+    def if_user_is_not_admin_return_403(self, authenticate,  delete_category):
+        authenticate()
+
+        response = delete_category(5)
+
+        assert response.status_code == status.HTTP_403_FORBIDDEN
+        
     def test_if_category_does_not_exists_return_404(
         self, delete_category, authenticate
     ):
-        authenticate()
+        authenticate(is_staff=True)
 
         response = delete_category(5)
 
         assert response.status_code == status.HTTP_404_NOT_FOUND
 
     def test_if_category_exists_returns_204(self, authenticate, delete_category):
-        user = authenticate()
+        user = authenticate(is_staff=True)
 
         category = baker.make(Category)
         response = delete_category(category.id)
